@@ -192,6 +192,30 @@
             </div>
 
             <div class="editor-section">
+                <h3><i class="fa-solid fa-heading"></i> Configurações do Cabeçalho</h3>
+                <div class="fusion-row">
+                    <div style="flex:1">
+                        <label>Título Principal</label>
+                        <input type="text" id="headerTitle" placeholder="Ten Shadows" oninput="updatePreview()">
+                    </div>
+                    <div style="flex:1">
+                        <label>Subtítulo</label>
+                        <input type="text" id="headerSubtitle" placeholder="Chimera Shadow Garden" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="fusion-row" style="margin-top: 10px;">
+                    <div style="flex:2">
+                        <label>Banner URL</label>
+                        <input type="text" id="headerBanner" placeholder="https://..." oninput="updatePreview()">
+                    </div>
+                    <div style="flex:0.5">
+                        <label>Kanji</label>
+                        <input type="text" id="headerKanji" placeholder="影" maxlength="1" style="text-align:center;" oninput="updatePreview()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-section">
                 <h3><i class="fa-solid fa-pen-nib"></i> Postagem</h3>
                 <label>Narração</label>
                 <textarea id="rpContent" oninput="updatePreview()" placeholder="Escreva sua cena aqui..."></textarea>
@@ -253,7 +277,7 @@
     <textarea id="hiddenCopy" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
 
 <script>
-    // --- BANCO DE DADOS DAS SOMBRAS ---
+    // --- BANCO DE DADOS DAS SOMBRAS (Mantido conforme solicitado) ---
     const shadowDB = {
         "Divine Dogs": { hp: "3.500", atk: "100", stats: "Força: 12 | Vel: 120 m/s", img: "https://i.pinimg.com/1200x/40/04/8e/40048e0dee06c7450e5587152721ffc8.jpg" },
         "Touro": { hp: "8.500", atk: "200 (Base)", stats: "Força: 18 | Vel: 150 m/s", img: "https://i.pinimg.com/1200x/8b/1b/83/8b1b836bc53bc298d94f9471b21a208f.jpg" },
@@ -269,6 +293,10 @@
 
     // --- ESTADO ---
     let state = {
+        title: "Ten Shadows",
+        subtitle: "Chimera Shadow Garden",
+        banner: "https://i.imgur.com/rN76FYb.png",
+        kanji: "影",
         rp: "",
         notes: "",
         activeShadows: [],
@@ -356,8 +384,15 @@
 
     // --- PREVIEW BUILDER ---
     function updatePreview() {
+        // Coleta valores do header
+        state.title = document.getElementById('headerTitle').value || "Ten Shadows";
+        state.subtitle = document.getElementById('headerSubtitle').value || "Chimera Shadow Garden";
+        state.banner = document.getElementById('headerBanner').value || "https://i.imgur.com/rN76FYb.png";
+        state.kanji = document.getElementById('headerKanji').value || "影";
+
+        // Coleta texto
         state.rp = document.getElementById('rpContent').value;
-        state.notes = document.getElementById('rpNotes').value; // Agora pega do Textarea
+        state.notes = document.getElementById('rpNotes').value; 
 
         let formattedRP = state.rp
             .replace(/\n/g, '<br>')
@@ -369,7 +404,7 @@
         else formattedRP = `<p>${formattedRP}</p>`;
 
         let formattedNotes = state.notes
-            .replace(/\n/g, '<br>') // Suporte a quebra de linha nas notas
+            .replace(/\n/g, '<br>')
             .replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>')
             .replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>')
             .replace(/\[u\]/g, '<u>').replace(/\[\/u\]/g, '</u>');
@@ -402,7 +437,7 @@
             </div>`;
         });
 
-        // CSS INJETADO COM CORREÇÕES DE OVERFLOW E POSIÇÃO
+        // CSS INJETADO (Com a variável de Banner)
         const template = `
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@300;400;500;600&display=swap');
@@ -410,14 +445,14 @@
 :root { --mz-bg: #0a0a0a; --mz-panel: #121212; --mz-blood: #8a0000; --mz-blood-bright: #ff1a1a; --mz-text: #e0e0e0; --mz-note-bg: #0f0a0a; }
 .mz-post-container { max-width: 720px; margin: 20px auto; background-color: var(--mz-bg); border: 1px solid #222; box-shadow: 0 0 50px rgba(0,0,0,0.8); font-family: 'Montserrat', sans-serif; color: var(--mz-text); position: relative; overflow: hidden; }
 .mz-post-container::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--mz-blood), #000, var(--mz-blood-bright)); z-index: 2; }
-.mz-header { height: 220px; position: relative; display: flex; align-items: flex-end; justify-content: flex-end; padding: 20px; border-bottom: none; overflow: visible; /* CORREÇÃO OVERFLOW */ }
+.mz-header { height: 220px; position: relative; display: flex; align-items: flex-end; justify-content: flex-end; padding: 20px; border-bottom: none; overflow: visible; }
 .mz-header::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--mz-blood), transparent); box-shadow: 0 -1px 15px var(--mz-blood); z-index: 20; }
-.mz-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://i.imgur.com/rN76FYb.png'); background-size: cover; background-position: center; z-index: 0; }
+.mz-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('${state.banner}'); background-size: cover; background-position: center; z-index: 0; }
 .mz-header-bg::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(138, 0, 0, 0.6), rgba(10, 10, 10, 0.9)); mix-blend-mode: multiply; }
 .mz-titles-box { position: absolute; bottom: 30px; left: 30px; z-index: 5; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 .mz-main-title { font-family: 'Cinzel Decorative', cursive; color: var(--mz-blood-bright); font-size: 2em; line-height: 1em; text-transform: uppercase; letter-spacing: 2px; }
 .mz-sub-title { font-family: 'Montserrat', sans-serif; color: #ccc; font-size: 0.85em; text-transform: uppercase; letter-spacing: 4px; margin-left: 2px; opacity: 0.8; }
-.mz-avatar-box { width: 110px; height: 110px; background: #000; border: 2px solid var(--mz-blood-bright); transform: rotate(45deg); display: flex; justify-content: center; align-items: center; margin-right: 1px; margin-bottom: -20px; /* CORREÇÃO POSIÇÃO */ position: relative; z-index: 10; box-shadow: 0 0 25px var(--mz-blood); box-shadow: inset 0 0 20px var(--mz-blood); }
+.mz-avatar-box { width: 110px; height: 110px; background: #000; border: 2px solid var(--mz-blood-bright); transform: rotate(45deg); display: flex; justify-content: center; align-items: center; margin-right: 1px; margin-bottom: -20px; position: relative; z-index: 10; box-shadow: 0 0 25px var(--mz-blood); box-shadow: inset 0 0 20px var(--mz-blood); }
 .mz-symbol { font-family: 'Noto Serif JP', serif; font-size: 4em; color: var(--mz-blood-bright); transform: rotate(-45deg); text-shadow: 0 0 10px var(--mz-blood-bright); line-height: 1; margin-bottom: 5px; margin-right: 5px; }
 .mz-content { padding: 70px 40px 30px 40px; background: var(--mz-bg); font-size: 0.95em; line-height: 1.8; color: #ccc; text-align: justify; }
 .mz-content b, .mz-content strong { color: var(--mz-blood-bright); font-weight: 600; }
@@ -447,11 +482,11 @@
     <div class="mz-header">
         <div class="mz-header-bg"></div>
         <div class="mz-titles-box">
-            <div class="mz-main-title">Ten Shadows</div>
-            <div class="mz-sub-title">Chimera Shadow Garden</div>
+            <div class="mz-main-title">${state.title}</div>
+            <div class="mz-sub-title">${state.subtitle}</div>
         </div>
         <div class="mz-avatar-box">
-            <div class="mz-symbol">影</div>
+            <div class="mz-symbol">${state.kanji}</div>
         </div>
     </div>
     <div class="mz-content">${formattedRP}</div>
@@ -480,6 +515,23 @@
         const parser = new DOMParser();
         const doc = parser.parseFromString(code, 'text/html');
 
+        // Tenta recuperar Configurações do Header
+        const titleEl = doc.querySelector('.mz-main-title');
+        if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
+        
+        const subEl = doc.querySelector('.mz-sub-title');
+        if(subEl) document.getElementById('headerSubtitle').value = subEl.innerText;
+        
+        const kanjiEl = doc.querySelector('.mz-symbol');
+        if(kanjiEl) document.getElementById('headerKanji').value = kanjiEl.innerText;
+
+        // Recupera Banner do CSS inline (regex)
+        const bannerMatch = code.match(/\.mz-header-bg\s*\{[^}]*background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
+        if(bannerMatch && bannerMatch[1]) {
+            document.getElementById('headerBanner').value = bannerMatch[1];
+        }
+
+        // Recupera RP
         let contentDiv = doc.querySelector('.mz-content');
         if (contentDiv) {
             let html = contentDiv.innerHTML;
@@ -489,6 +541,7 @@
             document.getElementById('rpContent').value = temp.innerText.trim();
         }
 
+        // Recupera Notas
         let notesDiv = doc.querySelector('.mz-notes-content');
         if (notesDiv) {
             let html = notesDiv.innerHTML;
@@ -541,10 +594,20 @@
         if(confirm("Deseja limpar tudo?")) {
             state.rp = "";
             state.notes = "";
+            state.title = "Ten Shadows";
+            state.subtitle = "Chimera Shadow Garden";
+            state.banner = "https://i.imgur.com/rN76FYb.png";
+            state.kanji = "影";
             state.activeShadows = [];
             state.fusions = [];
+            
             document.getElementById('rpContent').value = "";
             document.getElementById('rpNotes').value = "";
+            document.getElementById('headerTitle').value = "";
+            document.getElementById('headerSubtitle').value = "";
+            document.getElementById('headerBanner').value = "";
+            document.getElementById('headerKanji').value = "";
+
             renderLists();
             updatePreview();
             localStorage.removeItem('ga_ts_manager');
@@ -568,6 +631,10 @@
             state = data;
             document.getElementById('rpContent').value = state.rp || "";
             document.getElementById('rpNotes').value = state.notes || "";
+            document.getElementById('headerTitle').value = state.title || "";
+            document.getElementById('headerSubtitle').value = state.subtitle || "";
+            document.getElementById('headerBanner').value = state.banner || "";
+            document.getElementById('headerKanji').value = state.kanji || "";
             renderLists();
             updatePreview();
         }
