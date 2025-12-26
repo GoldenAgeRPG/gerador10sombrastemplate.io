@@ -43,104 +43,69 @@
         }
         .app-title {
             font-family: 'Cinzel Decorative', cursive;
-            font-size: 1.2rem;
-            color: #fff;
-            text-transform: uppercase;
+            font-size: 1.2rem; color: #fff; text-transform: uppercase;
             text-shadow: 0 0 10px var(--ts-blood-bright);
         }
 
         /* --- LAYOUT PRINCIPAL --- */
-        .app-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+        .app-body { display: flex; flex: 1; overflow: hidden; }
 
         /* ESQUERDA: EDITOR */
         .editor-pane {
-            width: 500px; /* Um pouco mais largo para conforto */
-            background: var(--ts-panel);
-            border-right: 1px solid var(--ts-border);
-            display: flex; flex-direction: column;
-            overflow-y: auto;
-            flex-shrink: 0;
+            width: 500px; background: var(--ts-panel); border-right: 1px solid var(--ts-border);
+            display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
         }
-
-        .editor-section {
-            padding: 20px;
-            border-bottom: 1px solid var(--ts-border);
-        }
-
+        .editor-section { padding: 20px; border-bottom: 1px solid var(--ts-border); }
         h3 {
             font-size: 0.8rem; text-transform: uppercase; color: var(--ts-blood-bright);
             margin-bottom: 10px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
         }
 
-        /* Inputs */
         label { display: block; font-size: 0.75rem; color: var(--ts-text-muted); margin-bottom: 6px; font-weight: 600; }
         
         input, textarea, select {
-            width: 100%;
-            background: #000;
-            border: 1px solid var(--ts-border);
-            color: #fff;
-            padding: 12px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            border-radius: 4px;
-            transition: 0.3s;
-            line-height: 1.4;
+            width: 100%; background: #000; border: 1px solid var(--ts-border); color: #fff;
+            padding: 12px; font-family: monospace; font-size: 0.9rem; border-radius: 4px;
+            transition: 0.3s; line-height: 1.4;
         }
         input:focus, textarea:focus, select:focus {
-            border-color: var(--ts-blood-bright);
-            box-shadow: 0 0 10px rgba(138, 0, 0, 0.2);
+            border-color: var(--ts-blood-bright); box-shadow: 0 0 10px rgba(138, 0, 0, 0.2);
         }
         
-        /* Ajuste de altura dos Textareas */
         textarea#rpContent { min-height: 350px; resize: vertical; }
         textarea#rpNotes { min-height: 120px; resize: vertical; }
 
-        /* --- SELETOR DE SOMBRAS --- */
+        /* SELETOR */
         .shadow-selector-box { display: flex; gap: 10px; }
         .btn-add {
-            background: var(--ts-blood); color: #fff; border: none;
-            padding: 0 15px; cursor: pointer; border-radius: 4px; font-weight: bold;
-            transition: 0.2s;
+            background: var(--ts-blood); color: #fff; border: none; padding: 0 15px;
+            cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.2s;
         }
         .btn-add:hover { background: var(--ts-blood-bright); }
 
-        /* LISTA DE SOMBRAS ATIVAS */
+        /* LISTA */
         .active-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .shadow-item {
             background: #1a1a1a; border: 1px solid #333; padding: 8px 12px;
-            border-radius: 4px; display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.8rem;
+            border-radius: 4px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
         }
         .shadow-item span { font-weight: bold; color: #ccc; }
         .btn-remove { color: #666; cursor: pointer; transition: 0.2s; }
         .btn-remove:hover { color: var(--ts-blood-bright); }
 
         /* FUSÕES */
-        .fusion-form {
-            background: #161616; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px dashed #333;
-        }
+        .fusion-form { background: #161616; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px dashed #333; }
         .fusion-row { display: flex; gap: 5px; margin-bottom: 5px; }
 
         /* DIREITA: PREVIEW */
         .preview-pane {
-            flex: 1;
-            background: #000;
-            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-            background-size: 20px 20px;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex; justify-content: center;
+            flex: 1; background: #000;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 20px 20px;
+            padding: 20px; overflow-y: auto; display: flex; justify-content: center;
         }
 
-        /* --- BOTÕES DE AÇÃO --- */
-        .action-bar {
-            padding: 15px; display: flex; gap: 10px; background: #000; border-top: 1px solid var(--ts-border);
-        }
+        /* AÇÕES */
+        .action-bar { padding: 15px; display: flex; gap: 10px; background: #000; border-top: 1px solid var(--ts-border); }
         .btn-action {
             flex: 1; padding: 12px; border: none; font-weight: bold; text-transform: uppercase;
             cursor: pointer; border-radius: 4px; font-size: 0.75rem;
@@ -151,11 +116,59 @@
         .btn-clear:hover { background: rgba(138,0,0,0.1); }
         .btn-import { background: #222; color: #fff; }
 
-        /* MODAL DE IMPORTAÇÃO */
         .import-area { display: none; padding: 10px; background: #222; border-top: 1px solid #444; }
         .import-area.active { display: block; }
 
-        /* TOAST */
+        /* --- SISTEMA DE MODAL PERSONALIZADO (POP-UPS) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+            z-index: 999; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal-box {
+            width: 90%; max-width: 400px;
+            background: #0a0a0a; border: 1px solid var(--ts-blood);
+            border-radius: 2px; padding: 30px; text-align: center;
+            box-shadow: 0 0 40px rgba(138, 0, 0, 0.4);
+            transform: scale(0.9); transition: transform 0.3s ease;
+            position: relative;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        /* Decoração do Modal */
+        .modal-box::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, #000, var(--ts-blood-bright), #000);
+        }
+
+        .modal-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
+        .icon-success { color: var(--ts-text); text-shadow: 0 0 10px #fff; }
+        .icon-error { color: var(--ts-blood-bright); text-shadow: 0 0 15px var(--ts-blood); }
+        .icon-warn { color: #d4a017; }
+
+        .modal-title {
+            font-family: 'Cinzel Decorative', cursive; font-size: 1.5rem; color: #fff;
+            margin-bottom: 10px; letter-spacing: 1px;
+        }
+        .modal-msg {
+            color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 25px;
+        }
+
+        .modal-btns { display: flex; gap: 10px; justify-content: center; }
+        .modal-btn {
+            padding: 10px 20px; border: none; font-weight: bold; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem; transition: 0.2s;
+        }
+        .m-btn-confirm { background: var(--ts-blood); color: #fff; }
+        .m-btn-confirm:hover { background: var(--ts-blood-bright); box-shadow: 0 0 10px var(--ts-blood); }
+        .m-btn-cancel { background: transparent; border: 1px solid #333; color: #666; }
+        .m-btn-cancel:hover { border-color: #666; color: #fff; }
+
+        /* --- TOAST --- */
         .toast {
             position: fixed; top: 20px; right: 20px;
             background: var(--ts-blood); color: #fff;
@@ -166,7 +179,6 @@
         }
         .toast.show { transform: translateX(0); }
 
-        /* RESPONSIVIDADE */
         @media (max-width: 900px) {
             .app-body { flex-direction: column; overflow: auto; }
             .editor-pane { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--ts-border); }
@@ -177,6 +189,15 @@
 </head>
 <body>
 
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <i id="mIcon" class="fa-solid fa-triangle-exclamation modal-icon"></i>
+            <h2 id="mTitle" class="modal-title">Atenção</h2>
+            <p id="mMsg" class="modal-msg">Mensagem do sistema.</p>
+            <div id="mBtns" class="modal-btns"></div>
+        </div>
+    </div>
+
     <div class="app-header">
         <div class="app-title">Golden Age Manager</div>
         <div style="font-size: 0.7rem; color: #666;">Ten Shadows Edition</div>
@@ -185,7 +206,6 @@
     <div class="app-body">
         
         <div class="editor-pane">
-            
             <div id="importContainer" class="import-area">
                 <textarea id="importInput" placeholder="Cole o código HTML aqui..." style="height: 60px;"></textarea>
                 <button class="btn-action btn-import" onclick="processImport()" style="width: 100%; margin-top: 5px;">Processar Código</button>
@@ -229,8 +249,7 @@
             <div class="editor-section">
                 <h3><i class="fa-solid fa-paw"></i> Sombras Padrão</h3>
                 <div class="shadow-selector-box">
-                    <select id="shadowSelect">
-                        </select>
+                    <select id="shadowSelect"></select>
                     <button class="btn-add" onclick="addStandardShadow()"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <div id="activeShadowsList" class="active-list"></div>
@@ -241,18 +260,14 @@
                 <div class="fusion-form">
                     <label>Nome</label>
                     <input type="text" id="fusName" placeholder="Ex: The Well's Unknown Abyss">
-                    
                     <div class="fusion-row" style="margin-top: 5px;">
                         <div style="flex:1"><label>HP</label><input type="text" id="fusHp" placeholder="5000"></div>
                         <div style="flex:1"><label>Dano (ATK)</label><input type="text" id="fusAtk" placeholder="100"></div>
                     </div>
-                    
-                    <label>Stats Completos (Para referência visual se quiser)</label>
+                    <label>Stats Completos (Opcional)</label>
                     <input type="text" id="fusStats" placeholder="Vel: 100m/s | Força: 20">
-
                     <label>Imagem URL</label>
                     <input type="text" id="fusImg" placeholder="https://...">
-
                     <button class="btn-action btn-import" onclick="addFusion()" style="width: 100%; margin-top: 10px;">Adicionar Fusão</button>
                 </div>
                 <div id="activeFusionsList" class="active-list"></div>
@@ -263,21 +278,65 @@
                 <button class="btn-action btn-clear" onclick="clearAll()">Limpar</button>
                 <button class="btn-action btn-copy" onclick="copyCode()">Copiar Código</button>
             </div>
-
         </div>
 
         <div class="preview-pane">
             <div id="previewContainer" style="width: 100%;"></div>
         </div>
-
     </div>
 
     <div id="toast" class="toast">Código Copiado!</div>
-
     <textarea id="hiddenCopy" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
 
 <script>
-    // --- BANCO DE DADOS DAS SOMBRAS (Mantido conforme solicitado) ---
+    // --- SISTEMA DE MODAL (POP-UP) ---
+    const modal = document.getElementById('customModal');
+    const mIcon = document.getElementById('mIcon');
+    const mTitle = document.getElementById('mTitle');
+    const mMsg = document.getElementById('mMsg');
+    const mBtns = document.getElementById('mBtns');
+
+    function showModal(type, title, msg, onConfirm = null) {
+        mTitle.innerText = title;
+        mMsg.innerText = msg;
+        mBtns.innerHTML = '';
+
+        mIcon.className = 'modal-icon fa-solid';
+        if(type === 'error') mIcon.classList.add('fa-circle-exclamation', 'icon-error');
+        else if(type === 'success') mIcon.classList.add('fa-circle-check', 'icon-success');
+        else mIcon.classList.add('fa-triangle-exclamation', 'icon-warn');
+
+        if(onConfirm) {
+            // Botão Confirmar
+            const btnYes = document.createElement('button');
+            btnYes.className = 'modal-btn m-btn-confirm';
+            btnYes.innerText = 'Confirmar';
+            btnYes.onclick = () => { onConfirm(); closeModal(); };
+            
+            // Botão Cancelar
+            const btnNo = document.createElement('button');
+            btnNo.className = 'modal-btn m-btn-cancel';
+            btnNo.innerText = 'Cancelar';
+            btnNo.onclick = closeModal;
+            
+            mBtns.append(btnNo, btnYes);
+        } else {
+            // Apenas OK
+            const btnOk = document.createElement('button');
+            btnOk.className = 'modal-btn m-btn-confirm';
+            btnOk.innerText = 'Entendido';
+            btnOk.onclick = closeModal;
+            mBtns.append(btnOk);
+        }
+
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    // --- DADOS ---
     const shadowDB = {
         "Divine Dogs": { hp: "3.500", atk: "100", stats: "Força: 12 | Vel: 120 m/s", img: "https://i.pinimg.com/1200x/40/04/8e/40048e0dee06c7450e5587152721ffc8.jpg" },
         "Touro": { hp: "8.500", atk: "200 (Base)", stats: "Força: 18 | Vel: 150 m/s", img: "https://i.pinimg.com/1200x/8b/1b/83/8b1b836bc53bc298d94f9471b21a208f.jpg" },
@@ -291,7 +350,6 @@
         "Mahoraga": { hp: "80.000", atk: "1.000", stats: "Força: 30 | Vel: 300 m/s", img: "https://i.pinimg.com/736x/2b/02/4d/2b024df405bf6b1a19524f3a1fe643c9.jpg" }
     };
 
-    // --- ESTADO ---
     let state = {
         title: "Ten Shadows",
         subtitle: "Chimera Shadow Garden",
@@ -315,7 +373,7 @@
         loadCache();
     }
 
-    // --- LÓGICA ---
+    // --- AÇÕES ---
     function addStandardShadow() {
         const key = document.getElementById('shadowSelect').value;
         state.activeShadows.push(key);
@@ -338,7 +396,7 @@
         const img = document.getElementById('fusImg').value;
         
         if(!name || !img) {
-            showToast("Nome e Imagem são obrigatórios!");
+            showModal('error', 'Campos Obrigatórios', 'Você precisa preencher pelo menos o Nome e a URL da Imagem.');
             return;
         }
 
@@ -382,15 +440,11 @@
         });
     }
 
-    // --- PREVIEW BUILDER ---
     function updatePreview() {
-        // Coleta valores do header
         state.title = document.getElementById('headerTitle').value || "Ten Shadows";
         state.subtitle = document.getElementById('headerSubtitle').value || "Chimera Shadow Garden";
         state.banner = document.getElementById('headerBanner').value || "https://i.imgur.com/rN76FYb.png";
         state.kanji = document.getElementById('headerKanji').value || "影";
-
-        // Coleta texto
         state.rp = document.getElementById('rpContent').value;
         state.notes = document.getElementById('rpNotes').value; 
 
@@ -411,7 +465,6 @@
         if(!formattedNotes) formattedNotes = "Insira suas considerações aqui.";
 
         let shadowsHTML = '';
-        
         state.activeShadows.forEach(key => {
             const s = shadowDB[key];
             shadowsHTML += `
@@ -424,7 +477,6 @@
                 </div>
             </div>`;
         });
-
         state.fusions.forEach(fus => {
             shadowsHTML += `
             <div class="mz-card">
@@ -437,7 +489,7 @@
             </div>`;
         });
 
-        // CSS INJETADO (Com a variável de Banner)
+        // CSS + HTML COMPRIMIDO
         const template = `
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@300;400;500;600&display=swap');
@@ -498,11 +550,11 @@
 </div>`;
 
         document.getElementById('previewContainer').innerHTML = template;
-        
         document.getElementById('hiddenCopy').value = template.replace(/\s+/g, ' ').trim();
         saveCache();
     }
 
+    // --- FUNÇÕES GERAIS ---
     function toggleImportPanel() {
         const panel = document.getElementById('importContainer');
         panel.classList.toggle('active');
@@ -510,76 +562,71 @@
 
     function processImport() {
         const code = document.getElementById('importInput').value;
-        if (!code) return;
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(code, 'text/html');
-
-        // Tenta recuperar Configurações do Header
-        const titleEl = doc.querySelector('.mz-main-title');
-        if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
-        
-        const subEl = doc.querySelector('.mz-sub-title');
-        if(subEl) document.getElementById('headerSubtitle').value = subEl.innerText;
-        
-        const kanjiEl = doc.querySelector('.mz-symbol');
-        if(kanjiEl) document.getElementById('headerKanji').value = kanjiEl.innerText;
-
-        // Recupera Banner do CSS inline (regex)
-        const bannerMatch = code.match(/\.mz-header-bg\s*\{[^}]*background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
-        if(bannerMatch && bannerMatch[1]) {
-            document.getElementById('headerBanner').value = bannerMatch[1];
+        if (!code) {
+            showModal('error', 'Erro', 'O campo de importação está vazio.');
+            return;
         }
 
-        // Recupera RP
-        let contentDiv = doc.querySelector('.mz-content');
-        if (contentDiv) {
-            let html = contentDiv.innerHTML;
-            html = html.replace(/<br\s*\/?>/gi, '\n');
-            let temp = document.createElement('div');
-            temp.innerHTML = html;
-            document.getElementById('rpContent').value = temp.innerText.trim();
-        }
+        try {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(code, 'text/html');
 
-        // Recupera Notas
-        let notesDiv = doc.querySelector('.mz-notes-content');
-        if (notesDiv) {
-            let html = notesDiv.innerHTML;
-            html = html.replace(/<br\s*\/?>/gi, '\n');
-            let temp = document.createElement('div');
-            temp.innerHTML = html;
-            document.getElementById('rpNotes').value = temp.innerText.trim();
-        }
+            const titleEl = doc.querySelector('.mz-main-title');
+            if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
+            const subEl = doc.querySelector('.mz-sub-title');
+            if(subEl) document.getElementById('headerSubtitle').value = subEl.innerText;
+            const kanjiEl = doc.querySelector('.mz-symbol');
+            if(kanjiEl) document.getElementById('headerKanji').value = kanjiEl.innerText;
+            const bannerMatch = code.match(/\.mz-header-bg\s*\{[^}]*background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
+            if(bannerMatch && bannerMatch[1]) document.getElementById('headerBanner').value = bannerMatch[1];
 
-        state.activeShadows = [];
-        state.fusions = [];
-        
-        const cards = doc.querySelectorAll('.mz-card');
-        cards.forEach(card => {
-            const name = card.querySelector('.mz-cs-name').innerText;
-            const img = card.querySelector('img').src;
-            
-            let isStandard = false;
-            for(const key in shadowDB) {
-                if(key === name) {
-                    state.activeShadows.push(key);
-                    isStandard = true;
-                    break;
+            let contentDiv = doc.querySelector('.mz-content');
+            if (contentDiv) {
+                let html = contentDiv.innerHTML;
+                html = html.replace(/<br\s*\/?>/gi, '\n');
+                let temp = document.createElement('div');
+                temp.innerHTML = html;
+                document.getElementById('rpContent').value = temp.innerText.trim();
+            }
+
+            let notesDiv = doc.querySelector('.mz-notes-content');
+            if (notesDiv) {
+                let html = notesDiv.innerHTML;
+                html = html.replace(/<br\s*\/?>/gi, '\n');
+                let temp = document.createElement('div');
+                temp.innerHTML = html;
+                document.getElementById('rpNotes').value = temp.innerText.trim();
+            }
+
+            state.activeShadows = [];
+            state.fusions = [];
+            const cards = doc.querySelectorAll('.mz-card');
+            cards.forEach(card => {
+                const name = card.querySelector('.mz-cs-name').innerText;
+                const img = card.querySelector('img').src;
+                let isStandard = false;
+                for(const key in shadowDB) {
+                    if(key === name) {
+                        state.activeShadows.push(key);
+                        isStandard = true;
+                        break;
+                    }
                 }
-            }
+                if(!isStandard) {
+                    const vals = card.querySelectorAll('.mz-cs-val span');
+                    const hp = vals[0] ? vals[0].innerText : '?';
+                    const atk = vals[1] ? vals[1].innerText : '?';
+                    state.fusions.push({ name, img, hp, atk });
+                }
+            });
 
-            if(!isStandard) {
-                const vals = card.querySelectorAll('.mz-cs-val span');
-                const hp = vals[0] ? vals[0].innerText : '?';
-                const atk = vals[1] ? vals[1].innerText : '?';
-                state.fusions.push({ name, img, hp, atk });
-            }
-        });
-
-        renderLists();
-        updatePreview();
-        toggleImportPanel();
-        showToast("Código Importado!");
+            renderLists();
+            updatePreview();
+            toggleImportPanel();
+            showModal('success', 'Sucesso', 'Ficha importada com sucesso!');
+        } catch (e) {
+            showModal('error', 'Erro Crítico', 'Falha ao ler o código. Verifique se o HTML está completo.');
+        }
     }
 
     function copyCode() {
@@ -587,20 +634,25 @@
         const copyText = document.getElementById("hiddenCopy");
         copyText.select();
         document.execCommand("copy");
-        showToast("Código Copiado!");
+        
+        // Toast
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
     }
 
     function clearAll() {
-        if(confirm("Deseja limpar tudo?")) {
+        showModal('confirm', 'Limpar Tudo?', 'Isso irá apagar todo o progresso atual. Tem certeza?', () => {
             state.rp = "";
             state.notes = "";
+            state.activeShadows = [];
+            state.fusions = [];
             state.title = "Ten Shadows";
             state.subtitle = "Chimera Shadow Garden";
             state.banner = "https://i.imgur.com/rN76FYb.png";
             state.kanji = "影";
-            state.activeShadows = [];
-            state.fusions = [];
             
+            // Reset Inputs
             document.getElementById('rpContent').value = "";
             document.getElementById('rpNotes').value = "";
             document.getElementById('headerTitle').value = "";
@@ -611,14 +663,7 @@
             renderLists();
             updatePreview();
             localStorage.removeItem('ga_ts_manager');
-        }
-    }
-
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.innerText = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 3000);
+        });
     }
 
     function saveCache() {
