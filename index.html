@@ -75,7 +75,6 @@
         textarea#rpContent { min-height: 350px; resize: vertical; }
         textarea#rpNotes { min-height: 120px; resize: vertical; }
 
-        /* SELETOR */
         .shadow-selector-box { display: flex; gap: 10px; }
         .btn-add {
             background: var(--ts-blood); color: #fff; border: none; padding: 0 15px;
@@ -83,7 +82,6 @@
         }
         .btn-add:hover { background: var(--ts-blood-bright); }
 
-        /* LISTA */
         .active-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .shadow-item {
             background: #1a1a1a; border: 1px solid #333; padding: 8px 12px;
@@ -93,18 +91,15 @@
         .btn-remove { color: #666; cursor: pointer; transition: 0.2s; }
         .btn-remove:hover { color: var(--ts-blood-bright); }
 
-        /* FUSÕES */
         .fusion-form { background: #161616; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px dashed #333; }
         .fusion-row { display: flex; gap: 5px; margin-bottom: 5px; }
 
-        /* DIREITA: PREVIEW */
         .preview-pane {
             flex: 1; background: #000;
             background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 20px 20px;
             padding: 20px; overflow-y: auto; display: flex; justify-content: center;
         }
 
-        /* AÇÕES */
         .action-bar { padding: 15px; display: flex; gap: 10px; background: #000; border-top: 1px solid var(--ts-border); }
         .btn-action {
             flex: 1; padding: 12px; border: none; font-weight: bold; text-transform: uppercase;
@@ -119,7 +114,7 @@
         .import-area { display: none; padding: 10px; background: #222; border-top: 1px solid #444; }
         .import-area.active { display: block; }
 
-        /* --- SISTEMA DE MODAL PERSONALIZADO (POP-UPS) --- */
+        /* --- MODAL --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
@@ -127,61 +122,30 @@
             opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
         .modal-box {
-            width: 90%; max-width: 400px;
-            background: #0a0a0a; border: 1px solid var(--ts-blood);
-            border-radius: 2px; padding: 30px; text-align: center;
-            box-shadow: 0 0 40px rgba(138, 0, 0, 0.4);
-            transform: scale(0.9); transition: transform 0.3s ease;
-            position: relative;
+            width: 90%; max-width: 400px; background: #0a0a0a; border: 1px solid var(--ts-blood);
+            border-radius: 2px; padding: 30px; text-align: center; position: relative;
         }
-        .modal-overlay.active .modal-box { transform: scale(1); }
-
-        /* Decoração do Modal */
-        .modal-box::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, #000, var(--ts-blood-bright), #000);
-        }
-
         .modal-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
-        .icon-success { color: var(--ts-text); text-shadow: 0 0 10px #fff; }
+        .icon-success { color: #fff; text-shadow: 0 0 10px #fff; }
         .icon-error { color: var(--ts-blood-bright); text-shadow: 0 0 15px var(--ts-blood); }
-        .icon-warn { color: #d4a017; }
-
-        .modal-title {
-            font-family: 'Cinzel Decorative', cursive; font-size: 1.5rem; color: #fff;
-            margin-bottom: 10px; letter-spacing: 1px;
-        }
-        .modal-msg {
-            color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 25px;
-        }
-
+        .modal-title { font-family: 'Cinzel Decorative', cursive; font-size: 1.5rem; color: #fff; margin-bottom: 10px; }
+        .modal-msg { color: #aaa; font-size: 0.9rem; margin-bottom: 25px; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; }
-        .modal-btn {
-            padding: 10px 20px; border: none; font-weight: bold; text-transform: uppercase;
-            cursor: pointer; border-radius: 2px; font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem; transition: 0.2s;
-        }
+        .modal-btn { padding: 10px 20px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
         .m-btn-confirm { background: var(--ts-blood); color: #fff; }
-        .m-btn-confirm:hover { background: var(--ts-blood-bright); box-shadow: 0 0 10px var(--ts-blood); }
         .m-btn-cancel { background: transparent; border: 1px solid #333; color: #666; }
-        .m-btn-cancel:hover { border-color: #666; color: #fff; }
 
         /* --- TOAST --- */
         .toast {
-            position: fixed; top: 20px; right: 20px;
-            background: var(--ts-blood); color: #fff;
-            padding: 10px 20px; border-radius: 4px;
-            font-weight: bold; font-size: 0.8rem;
-            transform: translateX(200%); transition: 0.3s;
-            z-index: 200; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: fixed; top: 20px; right: 20px; background: var(--ts-blood); color: #fff;
+            padding: 10px 20px; border-radius: 4px; font-weight: bold; transform: translateX(200%); transition: 0.3s; z-index: 200;
         }
         .toast.show { transform: translateX(0); }
 
         @media (max-width: 900px) {
             .app-body { flex-direction: column; overflow: auto; }
-            .editor-pane { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--ts-border); }
+            .editor-pane { width: 100%; height: auto; }
             .preview-pane { min-height: 500px; }
             body { overflow: auto; height: auto; }
         }
@@ -204,7 +168,6 @@
     </div>
 
     <div class="app-body">
-        
         <div class="editor-pane">
             <div id="importContainer" class="import-area">
                 <textarea id="importInput" placeholder="Cole o código HTML aqui..." style="height: 60px;"></textarea>
@@ -239,7 +202,6 @@
                 <h3><i class="fa-solid fa-pen-nib"></i> Postagem</h3>
                 <label>Narração</label>
                 <textarea id="rpContent" oninput="updatePreview()" placeholder="Escreva sua cena aqui..."></textarea>
-                
                 <div style="margin-top: 20px;">
                     <label>Nas Sombras (Considerações / Gastos)</label>
                     <textarea id="rpNotes" oninput="updatePreview()" placeholder="Notas off-game, cálculos de dano, etc."></textarea>
@@ -259,13 +221,11 @@
                 <h3><i class="fa-solid fa-dna"></i> Fusões / Personalizado</h3>
                 <div class="fusion-form">
                     <label>Nome</label>
-                    <input type="text" id="fusName" placeholder="Ex: The Well's Unknown Abyss">
+                    <input type="text" id="fusName" placeholder="Ex: Abyss">
                     <div class="fusion-row" style="margin-top: 5px;">
                         <div style="flex:1"><label>HP</label><input type="text" id="fusHp" placeholder="5000"></div>
                         <div style="flex:1"><label>Dano (ATK)</label><input type="text" id="fusAtk" placeholder="100"></div>
                     </div>
-                    <label>Stats Completos (Opcional)</label>
-                    <input type="text" id="fusStats" placeholder="Vel: 100m/s | Força: 20">
                     <label>Imagem URL</label>
                     <input type="text" id="fusImg" placeholder="https://...">
                     <button class="btn-action btn-import" onclick="addFusion()" style="width: 100%; margin-top: 10px;">Adicionar Fusão</button>
@@ -289,7 +249,7 @@
     <textarea id="hiddenCopy" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
 
 <script>
-    // --- SISTEMA DE MODAL (POP-UP) ---
+    // --- MODAL ---
     const modal = document.getElementById('customModal');
     const mIcon = document.getElementById('mIcon');
     const mTitle = document.getElementById('mTitle');
@@ -300,54 +260,45 @@
         mTitle.innerText = title;
         mMsg.innerText = msg;
         mBtns.innerHTML = '';
-
         mIcon.className = 'modal-icon fa-solid';
         if(type === 'error') mIcon.classList.add('fa-circle-exclamation', 'icon-error');
         else if(type === 'success') mIcon.classList.add('fa-circle-check', 'icon-success');
         else mIcon.classList.add('fa-triangle-exclamation', 'icon-warn');
 
         if(onConfirm) {
-            // Botão Confirmar
             const btnYes = document.createElement('button');
             btnYes.className = 'modal-btn m-btn-confirm';
             btnYes.innerText = 'Confirmar';
             btnYes.onclick = () => { onConfirm(); closeModal(); };
-            
-            // Botão Cancelar
             const btnNo = document.createElement('button');
             btnNo.className = 'modal-btn m-btn-cancel';
             btnNo.innerText = 'Cancelar';
             btnNo.onclick = closeModal;
-            
             mBtns.append(btnNo, btnYes);
         } else {
-            // Apenas OK
             const btnOk = document.createElement('button');
             btnOk.className = 'modal-btn m-btn-confirm';
             btnOk.innerText = 'Entendido';
             btnOk.onclick = closeModal;
             mBtns.append(btnOk);
         }
-
         modal.classList.add('active');
     }
 
-    function closeModal() {
-        modal.classList.remove('active');
-    }
+    function closeModal() { modal.classList.remove('active'); }
 
     // --- DADOS ---
     const shadowDB = {
-        "Divine Dogs": { hp: "3.500", atk: "100", stats: "Força: 12 | Vel: 120 m/s", img: "https://i.pinimg.com/1200x/40/04/8e/40048e0dee06c7450e5587152721ffc8.jpg" },
-        "Touro": { hp: "8.500", atk: "200 (Base)", stats: "Força: 18 | Vel: 150 m/s", img: "https://i.pinimg.com/1200x/8b/1b/83/8b1b836bc53bc298d94f9471b21a208f.jpg" },
-        "Nue": { hp: "4.500", atk: "150", stats: "Força: 10 | Vel: 200 m/s", img: "https://i.pinimg.com/1200x/aa/c8/f3/aac8f3abcbfabed5989e73f200eb7b28.jpg" },
-        "Orochi": { hp: "5.500", atk: "200", stats: "Força: 16 | Vel: 180 m/s (Bote)", img: "https://i.pinimg.com/1200x/e2/9c/88/e29c882bc2d9015d5e69f476b030bcd6.jpg" },
-        "Gama": { hp: "3.500", atk: "50", stats: "Força: 8 | Vel: 80-250 m/s", img: "https://i.pinimg.com/1200x/9d/8f/db/9d8fdb8da1d68d404ba978b53190ccbd.jpg" },
-        "Koso": { hp: "5.000", atk: "200", stats: "Força: 14 | Vel: 160 m/s", img: "https://i.pinimg.com/736x/95/c2/17/95c2175d580e1f17f2a0cd57045eaf20.jpg" },
-        "Bansho": { hp: "12.000", atk: "600", stats: "Força: 20 | Vel: 60 m/s", img: "https://i.pinimg.com/736x/c1/44/24/c1442460192124d74cf9b82e96da0e4a.jpg" },
-        "Datsuto": { hp: "1", atk: "0", stats: "Força: 0 | Vel: 200 m/s", img: "https://i.pinimg.com/736x/da/51/94/da519447b4d25c28265fa496b3fe5507.jpg" },
-        "Madoka": { hp: "6.000", atk: "0", stats: "Força: 10 | Vel: 100 m/s", img: "https://i.pinimg.com/736x/33/bf/a0/33bfa0d908ce561cbfc75e851cac041a.jpg" },
-        "Mahoraga": { hp: "80.000", atk: "1.000", stats: "Força: 30 | Vel: 300 m/s", img: "https://i.pinimg.com/736x/2b/02/4d/2b024df405bf6b1a19524f3a1fe643c9.jpg" }
+        "Divine Dogs": { hp: "3.500", atk: "100", img: "https://i.pinimg.com/1200x/40/04/8e/40048e0dee06c7450e5587152721ffc8.jpg" },
+        "Touro": { hp: "8.500", atk: "200 (Base)", img: "https://i.pinimg.com/1200x/8b/1b/83/8b1b836bc53bc298d94f9471b21a208f.jpg" },
+        "Nue": { hp: "4.500", atk: "150", img: "https://i.pinimg.com/1200x/aa/c8/f3/aac8f3abcbfabed5989e73f200eb7b28.jpg" },
+        "Orochi": { hp: "5.500", atk: "200", img: "https://i.pinimg.com/1200x/e2/9c/88/e29c882bc2d9015d5e69f476b030bcd6.jpg" },
+        "Gama": { hp: "3.500", atk: "50", img: "https://i.pinimg.com/1200x/9d/8f/db/9d8fdb8da1d68d404ba978b53190ccbd.jpg" },
+        "Koso": { hp: "5.000", atk: "200", img: "https://i.pinimg.com/736x/95/c2/17/95c2175d580e1f17f2a0cd57045eaf20.jpg" },
+        "Bansho": { hp: "12.000", atk: "600", img: "https://i.pinimg.com/736x/c1/44/24/c1442460192124d74cf9b82e96da0e4a.jpg" },
+        "Datsuto": { hp: "1", atk: "0", img: "https://i.pinimg.com/736x/da/51/94/da519447b4d25c28265fa496b3fe5507.jpg" },
+        "Madoka": { hp: "6.000", atk: "0", img: "https://i.pinimg.com/736x/33/bf/a0/33bfa0d908ce561cbfc75e851cac041a.jpg" },
+        "Mahoraga": { hp: "80.000", atk: "1.000", img: "https://i.pinimg.com/736x/2b/02/4d/2b024df405bf6b1a19524f3a1fe643c9.jpg" }
     };
 
     let state = {
@@ -361,32 +312,23 @@
         fusions: []
     };
 
-    // --- INICIALIZAÇÃO ---
     function init() {
         const select = document.getElementById('shadowSelect');
         for (const key in shadowDB) {
             const opt = document.createElement('option');
-            opt.value = key;
-            opt.innerText = key;
-            select.appendChild(opt);
+            opt.value = key; opt.innerText = key; select.appendChild(opt);
         }
         loadCache();
     }
 
-    // --- AÇÕES ---
     function addStandardShadow() {
-        const key = document.getElementById('shadowSelect').value;
-        state.activeShadows.push(key);
-        renderLists();
-        updatePreview();
-        saveCache();
+        state.activeShadows.push(document.getElementById('shadowSelect').value);
+        renderLists(); updatePreview(); saveCache();
     }
 
     function removeStandardShadow(index) {
         state.activeShadows.splice(index, 1);
-        renderLists();
-        updatePreview();
-        saveCache();
+        renderLists(); updatePreview(); saveCache();
     }
 
     function addFusion() {
@@ -394,30 +336,15 @@
         const hp = document.getElementById('fusHp').value;
         const atk = document.getElementById('fusAtk').value;
         const img = document.getElementById('fusImg').value;
-        
-        if(!name || !img) {
-            showModal('error', 'Campos Obrigatórios', 'Você precisa preencher pelo menos o Nome e a URL da Imagem.');
-            return;
-        }
-
+        if(!name || !img) { showModal('error', 'Erro', 'Preencha Nome e Imagem.'); return; }
         state.fusions.push({ name, hp, atk, img });
-        
-        document.getElementById('fusName').value = "";
-        document.getElementById('fusHp').value = "";
-        document.getElementById('fusAtk').value = "";
-        document.getElementById('fusStats').value = "";
-        document.getElementById('fusImg').value = "";
-
-        renderLists();
-        updatePreview();
-        saveCache();
+        ['fusName','fusHp','fusAtk','fusImg'].forEach(id => document.getElementById(id).value = "");
+        renderLists(); updatePreview(); saveCache();
     }
 
     function removeFusion(index) {
         state.fusions.splice(index, 1);
-        renderLists();
-        updatePreview();
-        saveCache();
+        renderLists(); updatePreview(); saveCache();
     }
 
     function renderLists() {
@@ -448,91 +375,27 @@
         state.rp = document.getElementById('rpContent').value;
         state.notes = document.getElementById('rpNotes').value; 
 
-        let formattedRP = state.rp
-            .replace(/\n/g, '<br>')
-            .replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>')
-            .replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>')
-            .replace(/\[u\]/g, '<u>').replace(/\[\/u\]/g, '</u>');
-
+        let formattedRP = state.rp.replace(/\n/g, '<br>').replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>').replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>');
         if(!formattedRP) formattedRP = "<p>Escreva sua narração...</p>";
         else formattedRP = `<p>${formattedRP}</p>`;
 
-        let formattedNotes = state.notes
-            .replace(/\n/g, '<br>')
-            .replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>')
-            .replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>')
-            .replace(/\[u\]/g, '<u>').replace(/\[\/u\]/g, '</u>');
+        let formattedNotes = state.notes.replace(/\n/g, '<br>').replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>').replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>');
         if(!formattedNotes) formattedNotes = "Insira suas considerações aqui.";
 
         let shadowsHTML = '';
         state.activeShadows.forEach(key => {
             const s = shadowDB[key];
-            shadowsHTML += `
-            <div class="mz-card">
-                <img src="${s.img}" class="mz-card-icon">
-                <div class="mz-card-stats">
-                    <span class="mz-cs-name">${key}</span>
-                    <div class="mz-cs-val">HP: <span>${s.hp}</span></div>
-                    <div class="mz-cs-val">ATK: <span>${s.atk}</span></div>
-                </div>
-            </div>`;
+            shadowsHTML += `<div class="mz-card"><img src="${s.img}" class="mz-card-icon"><div class="mz-card-stats"><span class="mz-cs-name">${key}</span><div class="mz-cs-val">HP: <span>${s.hp}</span></div><div class="mz-cs-val">ATK: <span>${s.atk}</span></div></div></div>`;
         });
         state.fusions.forEach(fus => {
-            shadowsHTML += `
-            <div class="mz-card">
-                <img src="${fus.img}" class="mz-card-icon">
-                <div class="mz-card-stats">
-                    <span class="mz-cs-name">${fus.name}</span>
-                    <div class="mz-cs-val">HP: <span>${fus.hp}</span></div>
-                    <div class="mz-cs-val">ATK: <span>${fus.atk}</span></div>
-                </div>
-            </div>`;
+            shadowsHTML += `<div class="mz-card"><img src="${fus.img}" class="mz-card-icon"><div class="mz-card-stats"><span class="mz-cs-name">${fus.name}</span><div class="mz-cs-val">HP: <span>${fus.hp}</span></div><div class="mz-cs-val">ATK: <span>${fus.atk}</span></div></div></div>`;
         });
 
-        // CSS + HTML COMPRIMIDO
-        const template = `
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&display=swap');
-:root { --mz-bg: #0a0a0a; --mz-panel: #121212; --mz-blood: #8a0000; --mz-blood-bright: #ff1a1a; --mz-text: #e0e0e0; --mz-note-bg: #0f0a0a; }
-.mz-post-container { max-width: 720px; margin: 20px auto; background-color: var(--mz-bg); border: 1px solid #222; box-shadow: 0 0 50px rgba(0,0,0,0.8); font-family: 'Montserrat', sans-serif; color: var(--mz-text); position: relative; overflow: hidden; }
-.mz-post-container::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--mz-blood), #000, var(--mz-blood-bright)); z-index: 2; }
-.mz-header { height: 220px; position: relative; display: flex; align-items: flex-end; justify-content: flex-end; padding: 20px; border-bottom: none; overflow: visible; }
-.mz-header::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--mz-blood), transparent); box-shadow: 0 -1px 15px var(--mz-blood); z-index: 20; }
-.mz-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('${state.banner}'); background-size: cover; background-position: center; z-index: 0; }
-.mz-header-bg::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(138, 0, 0, 0.6), rgba(10, 10, 10, 0.9)); mix-blend-mode: multiply; }
-.mz-titles-box { position: absolute; bottom: 30px; left: 30px; z-index: 5; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-.mz-main-title { font-family: 'Cinzel Decorative', cursive; color: var(--mz-blood-bright); font-size: 2em; line-height: 1em; text-transform: uppercase; letter-spacing: 2px; }
-.mz-sub-title { font-family: 'Montserrat', sans-serif; color: #ccc; font-size: 0.85em; text-transform: uppercase; letter-spacing: 4px; margin-left: 2px; opacity: 0.8; }
-.mz-avatar-box { width: 110px; height: 110px; background: #000; border: 2px solid var(--mz-blood-bright); transform: rotate(45deg); display: flex; justify-content: center; align-items: center; margin-right: 1px; margin-bottom: -20px; position: relative; z-index: 10; box-shadow: 0 0 25px var(--mz-blood); box-shadow: inset 0 0 20px var(--mz-blood); }
-.mz-symbol { font-family: 'Noto Serif JP', serif; font-size: 4em; color: var(--mz-blood-bright); transform: rotate(-45deg); text-shadow: 0 0 10px var(--mz-blood-bright); line-height: 1; margin-bottom: 5px; margin-right: 5px; }
-.mz-content { padding: 70px 40px 30px 40px; background: var(--mz-bg); font-size: 0.95em; line-height: 1.8; color: #ccc; text-align: justify; }
-.mz-content b, .mz-content strong { color: var(--mz-blood-bright); font-weight: 600; }
-.mz-content i, .mz-content em { color: #888; }
-.mz-content u { text-decoration: none; border-bottom: 1px solid var(--mz-blood); }
-.mz-notes-container { margin: 20px 40px 40px 40px; position: relative; border: 1px solid #333; background: var(--mz-note-bg); background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 10px 10px; }
-.mz-notes-container::before { content: "Nas Sombras"; position: absolute; top: -12px; left: 20px; background: var(--mz-blood); color: #fff; font-family: 'Cinzel Decorative', cursive; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; padding: 4px 15px; border: 1px solid var(--mz-blood-bright); box-shadow: 0 0 10px var(--mz-blood); }
-.mz-notes-content { padding: 25px 20px 15px 20px; font-size: 0.85em; color: #999; line-height: 1.6; border-left: 3px solid var(--mz-blood); }
-.mz-notes-content b, .mz-notes-content strong { color: var(--mz-blood-bright); font-weight: bold; }
-.mz-notes-content i, .mz-notes-content em { color: #666; font-style: italic; }
-.mz-notes-content u { text-decoration: none; border-bottom: 1px dashed var(--mz-blood-bright); color: #ccc; }
-.mz-shadows-deck { background: #000; padding: 20px; border-top: 1px solid #222; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-.mz-card { width: 45px; height: 45px; border-radius: 50%; background: #1a1a1a; border: 1px solid #333; position: relative; cursor: pointer; transition: all 0.4s ease; display: flex; justify-content: center; align-items: center; }
-.mz-card-icon { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; opacity: 0.4; filter: grayscale(100%); transition: 0.4s; }
-.mz-card-stats { position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%) translateY(10px); width: 130px; background: rgba(10,10,10,0.95); border: 1px solid var(--mz-blood); padding: 8px; border-radius: 4px; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
-.mz-card-stats::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 8px; height: 8px; background: var(--mz-blood); }
-.mz-cs-name { display: block; font-family: 'Cinzel Decorative'; color: var(--mz-blood-bright); font-size: 0.75em; border-bottom: 1px solid #333; margin-bottom: 4px; }
-.mz-cs-val { display: flex; justify-content: space-between; font-size: 0.7em; color: #888; font-family: monospace; }
-.mz-cs-val span { font-weight: bold; color: #ddd; }
-.mz-card:hover { border-color: var(--mz-blood-bright); transform: translateY(-3px); box-shadow: 0 0 15px var(--mz-blood); }
-.mz-card:hover .mz-card-icon { opacity: 1; filter: grayscale(0%); }
-.mz-card:hover .mz-card-stats { opacity: 1; transform: translateX(-50%) translateY(0); }
-.mz-signature { text-align: right; padding: 5px 20px 15px 0; background: #000; }
-.mz-signature::after { content: "Meredith Zenin"; font-family: 'Cinzel Decorative', cursive; font-size: 1.8em; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(to right, var(--mz-blood), var(--mz-blood-bright)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
-</style>
+        // TEMPLATE COM LINK CSS EXTERNO
+        const template = `<link href="https://goldenagerpg.github.io/templates.io/meredith-post.css" rel="stylesheet">
 <div class="mz-post-container">
     <div class="mz-header">
-        <div class="mz-header-bg"></div>
+        <div class="mz-header-bg" style="background-image: url('${state.banner}');"></div>
         <div class="mz-titles-box">
             <div class="mz-main-title">${state.title}</div>
             <div class="mz-sub-title">${state.subtitle}</div>
@@ -550,83 +413,51 @@
 </div>`;
 
         document.getElementById('previewContainer').innerHTML = template;
-        document.getElementById('hiddenCopy').value = template.replace(/\s+/g, ' ').trim();
+        document.getElementById('hiddenCopy').value = template;
         saveCache();
     }
 
-    // --- FUNÇÕES GERAIS ---
-    function toggleImportPanel() {
-        const panel = document.getElementById('importContainer');
-        panel.classList.toggle('active');
-    }
+    function toggleImportPanel() { document.getElementById('importContainer').classList.toggle('active'); }
 
     function processImport() {
         const code = document.getElementById('importInput').value;
-        if (!code) {
-            showModal('error', 'Erro', 'O campo de importação está vazio.');
-            return;
-        }
-
+        if (!code) { showModal('error', 'Erro', 'Campo vazio.'); return; }
         try {
             const parser = new DOMParser();
             const doc = parser.parseFromString(code, 'text/html');
-
             const titleEl = doc.querySelector('.mz-main-title');
             if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
             const subEl = doc.querySelector('.mz-sub-title');
             if(subEl) document.getElementById('headerSubtitle').value = subEl.innerText;
             const kanjiEl = doc.querySelector('.mz-symbol');
             if(kanjiEl) document.getElementById('headerKanji').value = kanjiEl.innerText;
-            const bannerMatch = code.match(/\.mz-header-bg\s*\{[^}]*background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
-            if(bannerMatch && bannerMatch[1]) document.getElementById('headerBanner').value = bannerMatch[1];
+            
+            const bgDiv = doc.querySelector('.mz-header-bg');
+            if(bgDiv && bgDiv.style.backgroundImage) {
+                const url = bgDiv.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                document.getElementById('headerBanner').value = url;
+            }
 
             let contentDiv = doc.querySelector('.mz-content');
-            if (contentDiv) {
-                let html = contentDiv.innerHTML;
-                html = html.replace(/<br\s*\/?>/gi, '\n');
-                let temp = document.createElement('div');
-                temp.innerHTML = html;
-                document.getElementById('rpContent').value = temp.innerText.trim();
-            }
-
+            if (contentDiv) document.getElementById('rpContent').value = contentDiv.innerHTML.replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<br\s*\/?>/gi, '\n').trim();
+            
             let notesDiv = doc.querySelector('.mz-notes-content');
-            if (notesDiv) {
-                let html = notesDiv.innerHTML;
-                html = html.replace(/<br\s*\/?>/gi, '\n');
-                let temp = document.createElement('div');
-                temp.innerHTML = html;
-                document.getElementById('rpNotes').value = temp.innerText.trim();
-            }
+            if (notesDiv) document.getElementById('rpNotes').value = notesDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n').trim();
 
-            state.activeShadows = [];
-            state.fusions = [];
+            state.activeShadows = []; state.fusions = [];
             const cards = doc.querySelectorAll('.mz-card');
             cards.forEach(card => {
                 const name = card.querySelector('.mz-cs-name').innerText;
                 const img = card.querySelector('img').src;
-                let isStandard = false;
-                for(const key in shadowDB) {
-                    if(key === name) {
-                        state.activeShadows.push(key);
-                        isStandard = true;
-                        break;
-                    }
-                }
-                if(!isStandard) {
+                let isStandard = shadowDB[name] ? true : false;
+                if(isStandard) state.activeShadows.push(name);
+                else {
                     const vals = card.querySelectorAll('.mz-cs-val span');
-                    const hp = vals[0] ? vals[0].innerText : '?';
-                    const atk = vals[1] ? vals[1].innerText : '?';
-                    state.fusions.push({ name, img, hp, atk });
+                    state.fusions.push({ name, img, hp: vals[0]?.innerText || '?', atk: vals[1]?.innerText || '?' });
                 }
             });
-
-            renderLists();
-            updatePreview();
-            toggleImportPanel();
-            showModal('success', 'Sucesso', 'Ficha importada com sucesso!');
-        } catch (e) {
-            showModal('error', 'Erro Crítico', 'Falha ao ler o código. Verifique se o HTML está completo.');
-        }
+            renderLists(); updatePreview(); toggleImportPanel(); showModal('success', 'Sucesso', 'Importado!');
+        } catch (e) { showModal('error', 'Erro', 'Código inválido.'); }
     }
 
     function copyCode() {
@@ -634,42 +465,20 @@
         const copyText = document.getElementById("hiddenCopy");
         copyText.select();
         document.execCommand("copy");
-        
-        // Toast
         const t = document.getElementById('toast');
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 3000);
     }
 
     function clearAll() {
-        showModal('confirm', 'Limpar Tudo?', 'Isso irá apagar todo o progresso atual. Tem certeza?', () => {
-            state.rp = "";
-            state.notes = "";
-            state.activeShadows = [];
-            state.fusions = [];
-            state.title = "Ten Shadows";
-            state.subtitle = "Chimera Shadow Garden";
-            state.banner = "https://i.imgur.com/rN76FYb.png";
-            state.kanji = "影";
-            
-            // Reset Inputs
-            document.getElementById('rpContent').value = "";
-            document.getElementById('rpNotes').value = "";
-            document.getElementById('headerTitle').value = "";
-            document.getElementById('headerSubtitle').value = "";
-            document.getElementById('headerBanner').value = "";
-            document.getElementById('headerKanji').value = "";
-
-            renderLists();
-            updatePreview();
-            localStorage.removeItem('ga_ts_manager');
+        showModal('confirm', 'Limpar Tudo?', 'Tem certeza?', () => {
+            state = { title: "Ten Shadows", subtitle: "Chimera Shadow Garden", banner: "https://i.imgur.com/rN76FYb.png", kanji: "影", rp: "", notes: "", activeShadows: [], fusions: [] };
+            ['rpContent','rpNotes','headerTitle','headerSubtitle','headerBanner','headerKanji'].forEach(id => document.getElementById(id).value = "");
+            renderLists(); updatePreview(); localStorage.removeItem('ga_ts_manager');
         });
     }
 
-    function saveCache() {
-        localStorage.setItem('ga_ts_manager', JSON.stringify(state));
-    }
-
+    function saveCache() { localStorage.setItem('ga_ts_manager', JSON.stringify(state)); }
     function loadCache() {
         const data = JSON.parse(localStorage.getItem('ga_ts_manager'));
         if (data) {
@@ -680,13 +489,11 @@
             document.getElementById('headerSubtitle').value = state.subtitle || "";
             document.getElementById('headerBanner').value = state.banner || "";
             document.getElementById('headerKanji').value = state.kanji || "";
-            renderLists();
-            updatePreview();
+            renderLists(); updatePreview();
         }
     }
 
     init();
-
 </script>
 </body>
 </html>
