@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Age Manager - Ten Shadows v2</title>
+    <title>Golden Age Manager - Ten Shadows v2 (Minified)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -273,7 +273,6 @@
     <textarea id="hiddenCopy" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
 
 <script>
-    // --- MODAL ---
     const modal = document.getElementById('customModal');
     const mIcon = document.getElementById('mIcon');
     const mTitle = document.getElementById('mTitle');
@@ -311,7 +310,6 @@
 
     function closeModal() { modal.classList.remove('active'); }
 
-    // --- DADOS ---
     const shadowDB = {
         "Divine Dogs": { hp: "3.500", atk: "100", img: "https://i.pinimg.com/1200x/40/04/8e/40048e0dee06c7450e5587152721ffc8.jpg" },
         "Touro": { hp: "8.500", atk: "200 (Base)", img: "https://i.pinimg.com/1200x/8b/1b/83/8b1b836bc53bc298d94f9471b21a208f.jpg" },
@@ -364,7 +362,6 @@
         const img = document.getElementById('fusImg').value;
         if(!name || !img) { showModal('error', 'Erro', 'Preencha Nome e Imagem.'); return; }
         
-        // Auto-formatação para barra de progresso se o user digitar só um número
         let finalHp = hp;
         if(hp && !hp.includes('/')) {
             finalHp = `${hp}/${hp}`;
@@ -421,13 +418,10 @@
         let formattedNotes = state.notes.replace(/\n/g, '<br>').replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>').replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>');
         if(!formattedNotes) formattedNotes = "Insira suas considerações aqui.";
 
-        // GERAR HTML DOS CARDS (COM BARRAS)
         let shadowsHTML = '';
         
-        // Padrões (BD)
         state.activeShadows.forEach(key => {
             const s = shadowDB[key];
-            // Para cards padrão, assumimos HP cheio (ex: 3.500/3.500)
             const hpFormatted = `${s.hp}/${s.hp}`;
             
             shadowsHTML += `
@@ -444,9 +438,7 @@
             </div>`;
         });
 
-        // Personalizados
         state.fusions.forEach(fus => {
-            // Garantir formato barra
             let hpShow = fus.hp;
             if(!hpShow.includes('/')) hpShow = `${hpShow}/${hpShow}`;
 
@@ -464,33 +456,25 @@
             </div>`;
         });
 
-        // CSS ADICIONAL PARA AS BARRAS (INJETADO PARA GARANTIR FUNCIONAMENTO)
         const barCSS = `
 <style>
-/* --- STATUS DO HEADER --- */
 .mz-header-stats { margin-top: 18px; width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 8px; }
 .mz-stat-row { display: flex; flex-direction: column; position: relative; }
 .mz-stat-info { display: flex; justify-content: space-between; font-family: 'Montserrat', sans-serif; font-size: 0.75em; color: #ccc; margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 .mz-header-track { width: 100%; height: 6px; background: rgba(0,0,0,0.6); border: 1px solid #444; border-radius: 2px; overflow: hidden; box-shadow: inset 0 0 5px rgba(0,0,0,0.8); }
 .mz-header-hp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--mz-blood), var(--mz-blood-bright)); box-shadow: 0 0 10px var(--mz-blood); transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
 .mz-header-ea-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #cc8800, #ffcc00); box-shadow: 0 0 10px #cc8800; transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
-
-/* --- BARRAS DOS CARDS --- */
 .mz-bar-track { width: 100%; height: 4px; background: rgba(0,0,0,0.8); border: 1px solid #333; margin-top: 2px; margin-bottom: 5px; position: relative; overflow: hidden; }
 .mz-hp-fill { height: 100%; width: 0%; background: var(--mz-blood-bright); box-shadow: 0 0 5px var(--mz-blood); transition: width 0.5s ease-in-out; }
 </style>`;
 
-        // TEMPLATE FINAL
         const template = `<link href="https://goldenagerpg.github.io/templates.io/meredith-post.css" rel="stylesheet">${barCSS}
 <div class="mz-post-container">
-    
     <div class="mz-header">
         <div class="mz-header-bg" style="background-image: url('${state.banner}');"></div>
-        
         <div class="mz-titles-box">
             <div class="mz-main-title">${state.title}</div>
             <div class="mz-sub-title">${state.subtitle}</div>
-
             <div class="mz-header-stats">
                 <div class="mz-stat-row">
                     <div class="mz-stat-info">
@@ -507,26 +491,24 @@
                     <div class="mz-header-track"><div class="mz-header-ea-fill"></div></div>
                 </div>
             </div>
-            </div>
-
+        </div>
         <div class="mz-avatar-box">
             <div class="mz-symbol">${state.kanji}</div>
         </div>
     </div>
-
     <div class="mz-content">${formattedRP}</div>
-
     <div class="mz-notes-container">
         <div class="mz-notes-content">${formattedNotes}</div>
     </div>
-
     <div class="mz-shadows-deck">${shadowsHTML}</div>
-
     <div class="mz-signature"></div>
 </div>`;
 
         document.getElementById('previewContainer').innerHTML = template;
-        document.getElementById('hiddenCopy').value = template;
+        
+        const compressedCode = template.replace(/(\r\n|\n|\r)/gm, "");
+        document.getElementById('hiddenCopy').value = compressedCode;
+        
         saveCache();
     }
 
@@ -539,7 +521,6 @@
             const parser = new DOMParser();
             const doc = parser.parseFromString(code, 'text/html');
             
-            // Header
             const titleEl = doc.querySelector('.mz-main-title');
             if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
             const subEl = doc.querySelector('.mz-sub-title');
@@ -553,7 +534,6 @@
                 document.getElementById('headerBanner').value = url;
             }
 
-            // Header Stats Import
             const hpVal = doc.querySelector('.mz-header-hp-val');
             if(hpVal) {
                 const parts = hpVal.innerText.split('/');
@@ -567,32 +547,25 @@
                 document.getElementById('headEaMax').value = parts[1] ? parts[1].trim() : parts[0].trim();
             }
 
-            // Conteúdo
             let contentDiv = doc.querySelector('.mz-content');
             if (contentDiv) document.getElementById('rpContent').value = contentDiv.innerHTML.replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<br\s*\/?>/gi, '\n').trim();
             
             let notesDiv = doc.querySelector('.mz-notes-content');
             if (notesDiv) document.getElementById('rpNotes').value = notesDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n').trim();
 
-            // Cards
             state.activeShadows = []; state.fusions = [];
             const cards = doc.querySelectorAll('.mz-card');
             cards.forEach(card => {
                 const name = card.querySelector('.mz-cs-name').innerText;
                 const img = card.querySelector('img').src;
                 
-                // Checar se é padrão
                 let isStandard = shadowDB[name] ? true : false;
                 
                 if(isStandard) {
                     state.activeShadows.push(name);
                 } else {
-                    // Custom
-                    // Tentar achar o HP val
                     const hpEl = card.querySelector('.mz-hp-val');
                     const atkEls = card.querySelectorAll('.mz-cs-val span'); 
-                    // ATK é geralmente o último span se tiver estrutura nova, ou o segundo se antiga
-                    // Vamos tentar pegar pelo contexto
                     let hpTxt = hpEl ? hpEl.innerText : (atkEls[0]?.innerText || '?');
                     let atkTxt = atkEls[atkEls.length - 1]?.innerText || '?';
 
