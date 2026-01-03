@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Age Manager</title>
+    <title>Golden Age Manager - Ten Shadows v2</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -164,7 +164,7 @@
 
     <div class="app-header">
         <div class="app-title">Golden Age Manager</div>
-        <div style="font-size: 0.7rem; color: #666;">Ten Shadows Edition</div>
+        <div style="font-size: 0.7rem; color: #666;">Ten Shadows V2</div>
     </div>
 
     <div class="app-body">
@@ -199,6 +199,30 @@
             </div>
 
             <div class="editor-section">
+                <h3><i class="fa-solid fa-heart-pulse"></i> Status (Header)</h3>
+                <div class="fusion-row">
+                    <div style="flex:1">
+                        <label>HP Atual</label>
+                        <input type="text" id="headHpCur" placeholder="2500" oninput="updatePreview()">
+                    </div>
+                    <div style="flex:1">
+                        <label>HP Max</label>
+                        <input type="text" id="headHpMax" placeholder="2500" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="fusion-row">
+                    <div style="flex:1">
+                        <label>EA Atual</label>
+                        <input type="text" id="headEaCur" placeholder="100" oninput="updatePreview()">
+                    </div>
+                    <div style="flex:1">
+                        <label>EA Max</label>
+                        <input type="text" id="headEaMax" placeholder="2000" oninput="updatePreview()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-section">
                 <h3><i class="fa-solid fa-pen-nib"></i> Postagem</h3>
                 <label>Narração</label>
                 <textarea id="rpContent" oninput="updatePreview()" placeholder="Escreva sua cena aqui..."></textarea>
@@ -223,7 +247,7 @@
                     <label>Nome</label>
                     <input type="text" id="fusName" placeholder="Ex: Abyss">
                     <div class="fusion-row" style="margin-top: 5px;">
-                        <div style="flex:1"><label>HP</label><input type="text" id="fusHp" placeholder="5000"></div>
+                        <div style="flex:1"><label>HP (Ex: 5000/5000)</label><input type="text" id="fusHp" placeholder="5000"></div>
                         <div style="flex:1"><label>Dano (ATK)</label><input type="text" id="fusAtk" placeholder="100"></div>
                     </div>
                     <label>Imagem URL</label>
@@ -306,6 +330,8 @@
         subtitle: "Chimera Shadow Garden",
         banner: "https://i.imgur.com/rN76FYb.png",
         kanji: "影",
+        headHpCur: "2500", headHpMax: "2500",
+        headEaCur: "100", headEaMax: "2000",
         rp: "",
         notes: "",
         activeShadows: [],
@@ -337,7 +363,14 @@
         const atk = document.getElementById('fusAtk').value;
         const img = document.getElementById('fusImg').value;
         if(!name || !img) { showModal('error', 'Erro', 'Preencha Nome e Imagem.'); return; }
-        state.fusions.push({ name, hp, atk, img });
+        
+        // Auto-formatação para barra de progresso se o user digitar só um número
+        let finalHp = hp;
+        if(hp && !hp.includes('/')) {
+            finalHp = `${hp}/${hp}`;
+        }
+
+        state.fusions.push({ name, hp: finalHp, atk, img });
         ['fusName','fusHp','fusAtk','fusImg'].forEach(id => document.getElementById(id).value = "");
         renderLists(); updatePreview(); saveCache();
     }
@@ -372,6 +405,12 @@
         state.subtitle = document.getElementById('headerSubtitle').value || "Chimera Shadow Garden";
         state.banner = document.getElementById('headerBanner').value || "https://i.imgur.com/rN76FYb.png";
         state.kanji = document.getElementById('headerKanji').value || "影";
+        
+        state.headHpCur = document.getElementById('headHpCur').value || "0";
+        state.headHpMax = document.getElementById('headHpMax').value || "0";
+        state.headEaCur = document.getElementById('headEaCur').value || "0";
+        state.headEaMax = document.getElementById('headEaMax').value || "0";
+
         state.rp = document.getElementById('rpContent').value;
         state.notes = document.getElementById('rpNotes').value; 
 
@@ -382,33 +421,107 @@
         let formattedNotes = state.notes.replace(/\n/g, '<br>').replace(/\[b\]/g, '<b>').replace(/\[\/b\]/g, '</b>').replace(/\[i\]/g, '<i>').replace(/\[\/i\]/g, '</i>');
         if(!formattedNotes) formattedNotes = "Insira suas considerações aqui.";
 
+        // GERAR HTML DOS CARDS (COM BARRAS)
         let shadowsHTML = '';
+        
+        // Padrões (BD)
         state.activeShadows.forEach(key => {
             const s = shadowDB[key];
-            shadowsHTML += `<div class="mz-card"><img src="${s.img}" class="mz-card-icon"><div class="mz-card-stats"><span class="mz-cs-name">${key}</span><div class="mz-cs-val">HP: <span>${s.hp}</span></div><div class="mz-cs-val">ATK: <span>${s.atk}</span></div></div></div>`;
-        });
-        state.fusions.forEach(fus => {
-            shadowsHTML += `<div class="mz-card"><img src="${fus.img}" class="mz-card-icon"><div class="mz-card-stats"><span class="mz-cs-name">${fus.name}</span><div class="mz-cs-val">HP: <span>${fus.hp}</span></div><div class="mz-cs-val">ATK: <span>${fus.atk}</span></div></div></div>`;
+            // Para cards padrão, assumimos HP cheio (ex: 3.500/3.500)
+            const hpFormatted = `${s.hp}/${s.hp}`;
+            
+            shadowsHTML += `
+            <div class="mz-card">
+                <img src="${s.img}" class="mz-card-icon">
+                <div class="mz-card-stats">
+                    <span class="mz-cs-name">${key}</span>
+                    <div class="mz-cs-val">
+                        HP: <span class="mz-hp-val">${hpFormatted}</span>
+                    </div>
+                    <div class="mz-bar-track"><div class="mz-hp-fill"></div></div>
+                    <div class="mz-cs-val">ATK: <span>${s.atk}</span></div>
+                </div>
+            </div>`;
         });
 
-        // TEMPLATE COM LINK CSS EXTERNO
-        const template = `<link href="https://goldenagerpg.github.io/templates.io/meredith-post.css" rel="stylesheet">
+        // Personalizados
+        state.fusions.forEach(fus => {
+            // Garantir formato barra
+            let hpShow = fus.hp;
+            if(!hpShow.includes('/')) hpShow = `${hpShow}/${hpShow}`;
+
+            shadowsHTML += `
+            <div class="mz-card">
+                <img src="${fus.img}" class="mz-card-icon">
+                <div class="mz-card-stats">
+                    <span class="mz-cs-name">${fus.name}</span>
+                    <div class="mz-cs-val">
+                        HP: <span class="mz-hp-val">${hpShow}</span>
+                    </div>
+                    <div class="mz-bar-track"><div class="mz-hp-fill"></div></div>
+                    <div class="mz-cs-val">ATK: <span>${fus.atk}</span></div>
+                </div>
+            </div>`;
+        });
+
+        // CSS ADICIONAL PARA AS BARRAS (INJETADO PARA GARANTIR FUNCIONAMENTO)
+        const barCSS = `
+<style>
+/* --- STATUS DO HEADER --- */
+.mz-header-stats { margin-top: 18px; width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 8px; }
+.mz-stat-row { display: flex; flex-direction: column; position: relative; }
+.mz-stat-info { display: flex; justify-content: space-between; font-family: 'Montserrat', sans-serif; font-size: 0.75em; color: #ccc; margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.mz-header-track { width: 100%; height: 6px; background: rgba(0,0,0,0.6); border: 1px solid #444; border-radius: 2px; overflow: hidden; box-shadow: inset 0 0 5px rgba(0,0,0,0.8); }
+.mz-header-hp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--mz-blood), var(--mz-blood-bright)); box-shadow: 0 0 10px var(--mz-blood); transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+.mz-header-ea-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #cc8800, #ffcc00); box-shadow: 0 0 10px #cc8800; transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+
+/* --- BARRAS DOS CARDS --- */
+.mz-bar-track { width: 100%; height: 4px; background: rgba(0,0,0,0.8); border: 1px solid #333; margin-top: 2px; margin-bottom: 5px; position: relative; overflow: hidden; }
+.mz-hp-fill { height: 100%; width: 0%; background: var(--mz-blood-bright); box-shadow: 0 0 5px var(--mz-blood); transition: width 0.5s ease-in-out; }
+</style>`;
+
+        // TEMPLATE FINAL
+        const template = `<link href="https://goldenagerpg.github.io/templates.io/meredith-post.css" rel="stylesheet">${barCSS}
 <div class="mz-post-container">
+    
     <div class="mz-header">
         <div class="mz-header-bg" style="background-image: url('${state.banner}');"></div>
+        
         <div class="mz-titles-box">
             <div class="mz-main-title">${state.title}</div>
             <div class="mz-sub-title">${state.subtitle}</div>
-        </div>
+
+            <div class="mz-header-stats">
+                <div class="mz-stat-row">
+                    <div class="mz-stat-info">
+                        <span>HP</span>
+                        <span class="mz-header-hp-val">${state.headHpCur}/${state.headHpMax}</span>
+                    </div>
+                    <div class="mz-header-track"><div class="mz-header-hp-fill"></div></div>
+                </div>
+                <div class="mz-stat-row">
+                    <div class="mz-stat-info">
+                        <span>EA</span>
+                        <span class="mz-header-ea-val">${state.headEaCur}/${state.headEaMax}</span>
+                    </div>
+                    <div class="mz-header-track"><div class="mz-header-ea-fill"></div></div>
+                </div>
+            </div>
+            </div>
+
         <div class="mz-avatar-box">
             <div class="mz-symbol">${state.kanji}</div>
         </div>
     </div>
+
     <div class="mz-content">${formattedRP}</div>
+
     <div class="mz-notes-container">
         <div class="mz-notes-content">${formattedNotes}</div>
     </div>
+
     <div class="mz-shadows-deck">${shadowsHTML}</div>
+
     <div class="mz-signature"></div>
 </div>`;
 
@@ -425,6 +538,8 @@
         try {
             const parser = new DOMParser();
             const doc = parser.parseFromString(code, 'text/html');
+            
+            // Header
             const titleEl = doc.querySelector('.mz-main-title');
             if(titleEl) document.getElementById('headerTitle').value = titleEl.innerText;
             const subEl = doc.querySelector('.mz-sub-title');
@@ -438,26 +553,55 @@
                 document.getElementById('headerBanner').value = url;
             }
 
+            // Header Stats Import
+            const hpVal = doc.querySelector('.mz-header-hp-val');
+            if(hpVal) {
+                const parts = hpVal.innerText.split('/');
+                document.getElementById('headHpCur').value = parts[0].trim();
+                document.getElementById('headHpMax').value = parts[1] ? parts[1].trim() : parts[0].trim();
+            }
+            const eaVal = doc.querySelector('.mz-header-ea-val');
+            if(eaVal) {
+                const parts = eaVal.innerText.split('/');
+                document.getElementById('headEaCur').value = parts[0].trim();
+                document.getElementById('headEaMax').value = parts[1] ? parts[1].trim() : parts[0].trim();
+            }
+
+            // Conteúdo
             let contentDiv = doc.querySelector('.mz-content');
             if (contentDiv) document.getElementById('rpContent').value = contentDiv.innerHTML.replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<br\s*\/?>/gi, '\n').trim();
             
             let notesDiv = doc.querySelector('.mz-notes-content');
             if (notesDiv) document.getElementById('rpNotes').value = notesDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n').trim();
 
+            // Cards
             state.activeShadows = []; state.fusions = [];
             const cards = doc.querySelectorAll('.mz-card');
             cards.forEach(card => {
                 const name = card.querySelector('.mz-cs-name').innerText;
                 const img = card.querySelector('img').src;
+                
+                // Checar se é padrão
                 let isStandard = shadowDB[name] ? true : false;
-                if(isStandard) state.activeShadows.push(name);
-                else {
-                    const vals = card.querySelectorAll('.mz-cs-val span');
-                    state.fusions.push({ name, img, hp: vals[0]?.innerText || '?', atk: vals[1]?.innerText || '?' });
+                
+                if(isStandard) {
+                    state.activeShadows.push(name);
+                } else {
+                    // Custom
+                    // Tentar achar o HP val
+                    const hpEl = card.querySelector('.mz-hp-val');
+                    const atkEls = card.querySelectorAll('.mz-cs-val span'); 
+                    // ATK é geralmente o último span se tiver estrutura nova, ou o segundo se antiga
+                    // Vamos tentar pegar pelo contexto
+                    let hpTxt = hpEl ? hpEl.innerText : (atkEls[0]?.innerText || '?');
+                    let atkTxt = atkEls[atkEls.length - 1]?.innerText || '?';
+
+                    state.fusions.push({ name, img, hp: hpTxt, atk: atkTxt });
                 }
             });
+            
             renderLists(); updatePreview(); toggleImportPanel(); showModal('success', 'Sucesso', 'Importado!');
-        } catch (e) { showModal('error', 'Erro', 'Código inválido.'); }
+        } catch (e) { console.log(e); showModal('error', 'Erro', 'Código inválido.'); }
     }
 
     function copyCode() {
@@ -472,15 +616,22 @@
 
     function clearAll() {
         showModal('confirm', 'Limpar Tudo?', 'Tem certeza?', () => {
-            state = { title: "Ten Shadows", subtitle: "Chimera Shadow Garden", banner: "https://i.imgur.com/rN76FYb.png", kanji: "影", rp: "", notes: "", activeShadows: [], fusions: [] };
-            ['rpContent','rpNotes','headerTitle','headerSubtitle','headerBanner','headerKanji'].forEach(id => document.getElementById(id).value = "");
-            renderLists(); updatePreview(); localStorage.removeItem('ga_ts_manager');
+            state = { 
+                title: "Ten Shadows", subtitle: "Chimera Shadow Garden", banner: "https://i.imgur.com/rN76FYb.png", kanji: "影", 
+                headHpCur: "2500", headHpMax: "2500", headEaCur: "100", headEaMax: "2000",
+                rp: "", notes: "", activeShadows: [], fusions: [] 
+            };
+            ['rpContent','rpNotes','headerTitle','headerSubtitle','headerBanner','headerKanji', 'headHpCur', 'headHpMax', 'headEaCur', 'headEaMax'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = "";
+            });
+            renderLists(); updatePreview(); localStorage.removeItem('ga_ts_manager_v2');
         });
     }
 
-    function saveCache() { localStorage.setItem('ga_ts_manager', JSON.stringify(state)); }
+    function saveCache() { localStorage.setItem('ga_ts_manager_v2', JSON.stringify(state)); }
     function loadCache() {
-        const data = JSON.parse(localStorage.getItem('ga_ts_manager'));
+        const data = JSON.parse(localStorage.getItem('ga_ts_manager_v2'));
         if (data) {
             state = data;
             document.getElementById('rpContent').value = state.rp || "";
@@ -489,6 +640,12 @@
             document.getElementById('headerSubtitle').value = state.subtitle || "";
             document.getElementById('headerBanner').value = state.banner || "";
             document.getElementById('headerKanji').value = state.kanji || "";
+            
+            document.getElementById('headHpCur').value = state.headHpCur || "";
+            document.getElementById('headHpMax').value = state.headHpMax || "";
+            document.getElementById('headEaCur').value = state.headEaCur || "";
+            document.getElementById('headEaMax').value = state.headEaMax || "";
+
             renderLists(); updatePreview();
         }
     }
